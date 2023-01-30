@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "axios": "^1.2.6",
+    "dotenv": "^16.0.3"
+  },
+  "name": "cloudflare-ddns",
+  "version": "1.0.0",
+  "description": "Node.js CloudFlare record updater",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cloudflare",
+    "ddns",
+    "dns",
+    "cf",
+    "dyndns",
+    "record",
+    "updater"
+  ],
+  "author": "Yevhen Zhuchenko",
+  "license": "ISC"
+}

@@ -1,0 +1,9 @@
+version: '2.1'
+
+services:
+  cloudflare-ddns:
+    image: lscr.io/linuxserver/baseimage-alpine:3.17
+    container_name: cloudflare-ddns
+    volumes:
+      - ./:/config
+    restart: unless-stopped
