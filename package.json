@@ -1,12 +1,13 @@
 {
   "dependencies": {
-    "axios": "^1.2.6",
+    "axios": "^1.4.0",
     "dotenv": "^16.0.3"
   },
   "name": "cloudflare-ddns",
   "version": "1.0.0",
   "description": "Node.js CloudFlare record updater",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

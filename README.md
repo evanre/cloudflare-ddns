@@ -7,5 +7,5 @@ I run it in a Docker container, but you can run it however you like.
 
 ### Docker
 1. Clone this repository
-2. Cope .env.example to .env and fill in the values
+2. Copy .env.example to .env and fill in the values
 3. Run `docker compose up -d`

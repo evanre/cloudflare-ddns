@@ -2,8 +2,9 @@ version: '2.1'
 
 services:
   cloudflare-ddns:
-    image: lscr.io/linuxserver/baseimage-alpine:3.17
+    image: lscr.io/linuxserver/baseimage-alpine:3.18
     container_name: cloudflare-ddns
     volumes:
       - ./:/config
+      - ./custom-scripts:/custom-cont-init.d:ro
     restart: unless-stopped

@@ -1,19 +1,24 @@
-const axios = require('axios');
-require('dotenv').config()
-const { env } = process;
-const File = require('./file');
+import 'dotenv/config';
+
+import axios from 'axios';
+import { URL } from 'url';
+import { env } from 'process';
+
+import File from './file.js';
 
 // Currently we're caching last updated ip in ip.json file, on every check we compare actually IP and the cached one. If it's different, we update it.
 // Alternative method of checking the nameserver ip is to resolve it, init resolver and set CloudFlare's nameservers:
 // const { Resolver } = require('dns').promises;
 // const resolver = new Resolver();
 // resolver.setServers(['1.1.1.1', '1.0.0.1'])
-// const address = await resolver.resolve4(r.zone).then(res => res[0]).catch(e => new Error(`Can't resolve: ${ r.zone }`));
+// const address = await resolver.resolve4(conf.zone).then(res => res[0]).catch(e => new Error(`Can't resolve: ${ r.zone }`));
 // Then we can compare the address with the ip from the file.
 
-const r = {
+const __dirname = new URL('.', import.meta.url).pathname;
+
+const conf = {
   url: 'https://api.cloudflare.com/client/v4/zones',
-  cacheFile: `${__dirname}/ip.json`,
+  cacheFile: `${__dirname}ip.json`,
   token: env.CF_TOKEN,
   zone: env.CF_ZONE,
 };
@@ -26,9 +31,9 @@ const request = async ({ endpoint = '', params = {}, data = {}, method = 'get'} 
     method,
     data,
     params,
-    url: `${r.url}${endpoint}`,
+    url: `${conf.url}${endpoint}`,
     headers: {
-      Authorization: `Bearer ${r.token}`,
+      Authorization: `Bearer ${conf.token}`,
       'Content-Type': 'application/json',
     },
   };
@@ -46,7 +51,7 @@ const getRecords = async (file, cached) => {
 
   cached.zoneId =
     cached.zoneId ||
-    (await request({ params: { name: r.zone, status: 'active' } }).then(
+    (await request({ params: { name: conf.zone, status: 'active' } }).then(
       ([{ id }]) => {
         log(`Didn't find zoneId in file, requested one is: ${id}`);
         needToUpdateFile = true;
@@ -74,8 +79,8 @@ const getRecords = async (file, cached) => {
   }
 };
 
-const go = async () => {
-  const file = new File(r.cacheFile);
+const updateDNS = async () => {
+  const file = new File(conf.cacheFile);
   const cached = await file.get();
 
   const ip = await axios
@@ -115,4 +120,4 @@ const go = async () => {
     .catch((e) => new Error(e));
 };
 
-go();
+updateDNS();

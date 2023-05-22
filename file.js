@@ -1,6 +1,6 @@
-const fs = require('fs');
+import fs from 'fs';
 
-module.exports = class File {
+export default class File {
   constructor(path) {
     this.path = path;
   }
